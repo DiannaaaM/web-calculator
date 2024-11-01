@@ -2,7 +2,12 @@ package com.example.calculator;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Fail.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,5 +54,18 @@ public class testOperations {
         int actual = calculatorService.add(5, 5);
         int expected = 10;
         assertEquals(expected, actual);
+    }
+    @ParameterizedTest
+    @MethodSource("addDataProvider")
+    void add(int num1, int num2, int expected) {
+        assertEquals(expected, calculatorService.add(num1, num2));
+    }
+
+    static Stream<Arguments> addDataProvider() {
+        return Stream.of(
+                Arguments.of(1, 2, 3),
+                Arguments.of(0, 5, 5),
+                Arguments.of(-3, 3, 0)
+        );
     }
 }
