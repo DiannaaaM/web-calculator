@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.Fail.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -27,6 +28,12 @@ public class testOperations {
     public void divideTest(){
         int actual = calculatorService.divide(10, 2);
         int expected = 5;
+        try {
+            calculatorService.divide(10, 0);
+            fail("Expected an IllegalArgumentException to be thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Деление на ноль недопустимо", e.getMessage());
+        }
         assertEquals(expected, actual);
     }
 
